@@ -1,10 +1,10 @@
-import numpy as np
 import cv2
+import numpy as np
+# from matplotlib import pyplot as plt
 
 import stereosgbm
 
-if __name__ == "__main__":
-    from matplotlib import pyplot as plt
+def test_sgbm_class():
 
     print("loading images...")
     bgrL = cv2.imread("../test/test-imgs/left/left_motorcycle.png")
@@ -17,6 +17,10 @@ if __name__ == "__main__":
     disparity_caluculator = stereosgbm.DisparityCalculator(window_size=window_size, min_disp=min_disp, max_disp=max_disp)
     disparity = disparity_caluculator.calc_by_brg(bgrL, bgrR)
 
+    assert disparity.shape[:2] == bgrL.shape[:2]
+    assert len(disparity.shape) == 2
+    assert disparity.dtype in (np.float32, np.float64)
+
     print("saving disparity as disparity_image_sgbm.txt")
 
     np.savetxt(
@@ -27,5 +31,8 @@ if __name__ == "__main__":
         newline="\n",
     )
 
-    plt.imshow(disparity, "gray")
-    plt.show()
+    # plt.imshow(disparity, "gray")
+    # plt.show()
+
+if __name__ == "__main__":
+    test_sgbm_class()
