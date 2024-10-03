@@ -12,6 +12,10 @@ import cv2
 class DisparityCalculator:
     """
     cv2.StereoSGBM based disparity calculator
+
+    SEE ALSO:
+        cv::StereoSGBM Class Reference
+        https://docs.opencv.org/4.x/d2/d85/classcv_1_1StereoSGBM.html
     """
 
     window_size: int = 3
