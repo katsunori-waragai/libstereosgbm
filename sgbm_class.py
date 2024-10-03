@@ -7,17 +7,15 @@ import cv2
 class DisparityCalculator:
     window_size = 3
     min_disp = 0
-    num_disp = 320 - min_disp
-    minDisparity = min_disp,
-    numDisparities = num_disp,
+    max_disp = 320
     opencv_sgbm: cv2.StereoSGBM = field(default=None)
 
     def __post_init__(self):
-        self.opencv_sgbm = cv2.StereoSGBM_create(minDisparity=min_disp,
-                                       numDisparities=num_disp,
+        self.opencv_sgbm = cv2.StereoSGBM_create(minDisparity=self.min_disp,
+                                       numDisparities=self.max_disp-self.min_disp,
                                        blockSize=3,
-                                       P1=8 * 3 * window_size ** 2,
-                                       P2=32 * 3 * window_size ** 2,
+                                       P1=8 * 3 * self.window_size ** 2,
+                                       P2=32 * 3 * self.window_size ** 2,
                                        disp12MaxDiff=1,
                                        uniquenessRatio=10,
                                        speckleWindowSize=100,
