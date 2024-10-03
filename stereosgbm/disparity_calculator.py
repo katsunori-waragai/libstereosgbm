@@ -1,15 +1,21 @@
+"""
+wrapper library for cv2.StereoSGBM
+"""
+
 from dataclasses import dataclass, field
 
 import numpy as np
 import cv2
+
 
 @dataclass
 class DisparityCalculator:
     """
     cv2.StereoSGBM based disparity calculator
     """
+
     window_size: int = 3
-    min_disp: int  = 0
+    min_disp: int = 0
     max_disp: int = 320
     opencv_sgbm: cv2.StereoSGBM = field(default=None)
 
@@ -27,10 +33,16 @@ class DisparityCalculator:
         )
 
     def calc_by_gray(self, grayL: np.ndarray, grayR: np.ndarray) -> np.ndarray:
+        """
+        return disparity by gray image pair
+        """
         disparity = self.opencv_sgbm.compute(grayL, grayR).astype(np.float32) / 16.0
         return disparity
 
     def calc_by_brg(self, bgrL: np.ndarray, bgrR: np.ndarray) -> np.ndarray:
+        """
+        return disparity by BGR image pair
+        """
         grayL = cv2.cvtColor(bgrL, cv2.COLOR_BGR2GRAY)
         grayR = cv2.cvtColor(bgrR, cv2.COLOR_BGR2GRAY)
         return self.calc_by_gray(grayL, grayR)
