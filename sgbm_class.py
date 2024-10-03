@@ -6,6 +6,9 @@ import cv2
 
 @dataclass
 class DisparityCalculator:
+    """
+    cv2.StereoSGBM based disparity calculator
+    """
     window_size = 3
     min_disp = 0
     max_disp = 320
