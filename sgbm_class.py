@@ -9,9 +9,9 @@ class DisparityCalculator:
     """
     cv2.StereoSGBM based disparity calculator
     """
-    window_size = 3
-    min_disp = 0
-    max_disp = 320
+    window_size: int = 3
+    min_disp: int  = 0
+    max_disp: int = 320
     opencv_sgbm: cv2.StereoSGBM = field(default=None)
 
     def __post_init__(self):
@@ -48,9 +48,9 @@ if __name__ == "__main__":
     # https://docs.opencv.org/trunk/d2/d85/classcv_1_1StereoSGBM.html
     window_size = 3
     min_disp = 0
-    num_disp = 320 - min_disp
+    max_disp = 320
 
-    disparity_caluculator = DisparityCalculator()
+    disparity_caluculator = DisparityCalculator(window_size=window_size, min_disp=min_disp, max_disp=max_disp)
     disparity = disparity_caluculator.calc_by_brg(bgrL, bgrR)
 
     print("saving disparity as disparity_image_sgbm.txt")
