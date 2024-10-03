@@ -6,8 +6,8 @@ import cv2
 from matplotlib import pyplot as plt
 
 print('loading images...')
-imgL = cv2.imread('../data/left.png', 0)
-imgR = cv2.imread('../data/right.png', 0)
+imgL = cv2.imread('test/test-imgs/left/left_motorcycle.png', 0)
+imgR = cv2.imread('test/test-imgs/right/right_motorcycle.png', 0)
 
 # disparity range tuning
 # https://docs.opencv.org/trunk/d2/d85/classcv_1_1StereoSGBM.html
@@ -29,8 +29,8 @@ print('computing disparity...')
 # disparity = stereo.compute(imgL, imgR)
 disparity = stereo.compute(imgL, imgR).astype(np.float32) / 16.0
 
-print "saving disparity as disparity_image_sgbm.txt"
-np.savetxt("../data/disparity_image_sgbm.txt", disparity, fmt = '%3.2f', delimiter = ' ', newline = '\n')
+print("saving disparity as disparity_image_sgbm.txt")
+np.savetxt("data/disparity_image_sgbm.txt", disparity, fmt = '%3.2f', delimiter = ' ', newline = '\n')
 
 # plt.imshow(imgL, 'gray')
 plt.imshow(disparity, 'gray')
