@@ -3,6 +3,7 @@ from pathlib import Path
 
 import numpy as np
 import cv2
+from tqdm import tqdm
 
 import stereosgbm
 
@@ -38,7 +39,7 @@ if __name__ == "__main__":
     left_imgs = sorted(glob.glob(args.left_imgs, recursive=True))
     right_imgs = sorted(glob.glob(args.right_imgs, recursive=True))
 
-    for left_name, right_name in zip(left_imgs, right_imgs):
+    for left_name, right_name in tqdm(list(zip(left_imgs, right_imgs))):
         bgrL = cv2.imread(left_name)
         bgrR = cv2.imread(right_name)
 
