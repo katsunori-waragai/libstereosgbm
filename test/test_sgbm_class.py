@@ -1,8 +1,10 @@
 import cv2
 import numpy as np
+
 # from matplotlib import pyplot as plt
 
 import stereosgbm
+
 
 def test_sgbm_class():
 
@@ -14,7 +16,9 @@ def test_sgbm_class():
     min_disp = 0
     max_disp = 320
 
-    disparity_caluculator = stereosgbm.DisparityCalculator(window_size=window_size, min_disp=min_disp, max_disp=max_disp)
+    disparity_caluculator = stereosgbm.DisparityCalculator(
+        window_size=window_size, min_disp=min_disp, max_disp=max_disp
+    )
     disparity = disparity_caluculator.calc_by_bgr(bgrL, bgrR)
 
     assert disparity.shape[:2] == bgrL.shape[:2]
@@ -33,6 +37,7 @@ def test_sgbm_class():
 
     # plt.imshow(disparity, "gray")
     # plt.show()
+
 
 if __name__ == "__main__":
     test_sgbm_class()
