@@ -52,7 +52,7 @@ if __name__ == "__main__":
         min_disp = 0
         max_disp = 320
 
-        disparity_caluculator = stereosgbm.DisparityCalculator(window_size=window_size, min_disp=min_disp,
+        disparity_calculator = stereosgbm.DisparityCalculator(window_size=window_size, min_disp=min_disp,
                                                                max_disp=max_disp)
     cap = cv2.VideoCapture(video_num)
     cap.set(cv2.CAP_PROP_BUFFERSIZE, 1)

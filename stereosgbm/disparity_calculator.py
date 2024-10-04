@@ -43,7 +43,7 @@ class DisparityCalculator:
         disparity = self.opencv_sgbm.compute(grayL, grayR).astype(np.float32) / 16.0
         return disparity
 
-    def calc_by_brg(self, bgrL: np.ndarray, bgrR: np.ndarray) -> np.ndarray:
+    def calc_by_bgr(self, bgrL: np.ndarray, bgrR: np.ndarray) -> np.ndarray:
         """
         return disparity by BGR image pair
         """
