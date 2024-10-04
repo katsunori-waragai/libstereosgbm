@@ -17,7 +17,7 @@ COPY stereosgbm/*.py /root/libstereosgbm/stereosgbm/
 COPY *.py ./
 COPY test/test-imgs/ /root/libstereosgbm/test/test-imgs/
 COPY test/*.py test/*.sh /root/libstereosgbm/test/
-COPY pyproject.toml ./
+COPY pyproject.toml Makefile ./
 
 RUN python3 -m pip install .[dev]
 RUN cd /root ; git clone https://github.com/katsunori-waragai/disparity-view.git
