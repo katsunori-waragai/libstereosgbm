@@ -1,6 +1,19 @@
 # libstereosgbm
 test implementation for SGBM 
 
+## checked environment
+    NVIDIA Jetson AGX orin
+    Ubuntu 20
+    python3.8
+    docker
+
+## install with Docker
+```commandline
+sh docker_build.sh
+sh docker_run.sh
+```
+
+## sample execution
 ```commandline
 root@waragai-orin:~/libstereosgbm# python3 sgbm_class.py -h
 usage: sgbm_class.py [-h] [--save_numpy SAVE_NUMPY] [-l LEFT_IMGS] [-r RIGHT_IMGS] [--output_directory OUTPUT_DIRECTORY] [--max_disp MAX_DISP]
