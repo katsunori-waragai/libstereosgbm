@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 # skeleton source https://github.com/opencv/opencv/blob/master/samples/python/stereo_match.py
+from pathlib import Path
 import numpy as np
 import cv2
 from matplotlib import pyplot as plt
@@ -30,7 +31,9 @@ print('computing disparity...')
 disparity = stereo.compute(imgL, imgR).astype(np.float32) / 16.0
 
 print("saving disparity as disparity_image_sgbm.txt")
-np.savetxt("data/disparity_image_sgbm.txt", disparity, fmt = '%3.2f', delimiter = ' ', newline = '\n')
+out_text = Path("data/disparity_image_sgbm.txt")
+out_text.parent.mkdir(exist_ok=True)
+np.savetxt(str(out_text), disparity, fmt = '%3.2f', delimiter = ' ', newline = '\n')
 
 # plt.imshow(imgL, 'gray')
 plt.imshow(disparity, 'gray')
