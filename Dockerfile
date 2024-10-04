@@ -13,7 +13,7 @@ WORKDIR /root/libstereosgbm
 RUN mkdir -p /root/libstereosgbm/stereosgbm/
 RUN mkdir /root/libstereosgbm/scripts/
 RUN mkdir -p /root/libstereosgbm/test/test-imgs/
-COPY stereosgbm/*.py /root/libstereosgbm/stereoigev/
+COPY stereosgbm/*.py /root/libstereosgbm/stereosgbm/
 COPY *.py ./
 COPY test/test-imgs/ /root/libstereosgbm/test/test-imgs/
 COPY test/*.py test/*.sh /root/libstereosgbm/test/
