@@ -1,6 +1,11 @@
 # libstereosgbm
 test implementation for SGBM 
 
+## StereoSGBM
+
+![disparity_motorcycle.png](test/test-imgs/disparity/disparity_motorcycle.png)
+![disparity_playtablep.png](test/test-imgs/disparity/disparity_playtablep.png)
+## 
  python3 sgbm.py 
 loading images...
 computing disparity...
