@@ -8,17 +8,21 @@ import stereosgbm
 
 if __name__ == "__main__":
     import argparse
+
     parser = argparse.ArgumentParser()
     parser.add_argument("--save_numpy", default=True, help="save output as numpy arrays")
 
-    parser.add_argument("-l", "--left_imgs", help="path to all first (left) frames", default="test/test-imgs/left/*.png")
-    parser.add_argument("-r", "--right_imgs", help="path to all second (right) frames", default="test/test-imgs/right/*.png")
+    parser.add_argument(
+        "-l", "--left_imgs", help="path to all first (left) frames", default="test/test-imgs/left/*.png"
+    )
+    parser.add_argument(
+        "-r", "--right_imgs", help="path to all second (right) frames", default="test/test-imgs/right/*.png"
+    )
 
     parser.add_argument("--output_directory", help="directory to save output", default="./demo-output/")
     parser.add_argument("--max_disp", type=int, default=320, help="max disp of geometry encoding volume")
 
     args = parser.parse_args()
-
 
     from matplotlib import pyplot as plt
 
@@ -28,7 +32,9 @@ if __name__ == "__main__":
     outdir = Path(args.output_directory)
     outdir.mkdir(exist_ok=True)
 
-    disparity_caluculator = stereosgbm.DisparityCalculator(window_size=window_size, min_disp=min_disp, max_disp=max_disp)
+    disparity_caluculator = stereosgbm.DisparityCalculator(
+        window_size=window_size, min_disp=min_disp, max_disp=max_disp
+    )
     left_imgs = sorted(glob.glob(args.left_imgs, recursive=True))
     right_imgs = sorted(glob.glob(args.right_imgs, recursive=True))
 
