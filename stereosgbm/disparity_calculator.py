@@ -50,3 +50,13 @@ class DisparityCalculator:
         grayL = cv2.cvtColor(bgrL, cv2.COLOR_BGR2GRAY)
         grayR = cv2.cvtColor(bgrR, cv2.COLOR_BGR2GRAY)
         return self.calc_by_gray(grayL, grayR)
+
+    def calc(self, imageL: np.ndarray, imageR: np.ndarray) -> np.ndarray:
+        """
+        return disparity by image pair
+        """
+        assert imageL.shape == imageR.shape
+        if len(imageL.shape) == 2:
+            return self.calc_by_gray(imageL, imageR)
+        else:
+            return self.calc_by_bgr(imageL, imageR)
