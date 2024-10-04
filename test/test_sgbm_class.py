@@ -38,7 +38,7 @@ def test_sgbm_gray():
     disparity_caluculator = stereosgbm.DisparityCalculator(
         window_size=window_size, min_disp=min_disp, max_disp=max_disp
     )
-    disparity = disparity_caluculator.calc_by_bgr(grayL, grayR)
+    disparity = disparity_caluculator.calc_by_gray(grayL, grayR)
 
     assert disparity.shape[:2] == grayL.shape[:2]
     assert len(disparity.shape) == 2
