@@ -137,13 +137,17 @@ def main(opt):
         assert cv_left_image.shape[2] == 3
         assert cv_left_image.dtype == np.uint8
         disparity_raw = disparity_calculator.calc_by_bgr(cv_left_image, cv_right_image)
-
+        assert disparity_raw.shape[:2] == cv_left_image.shape[:2]
         depth_any = depth_as_colorimage(disparity_raw)
+
         results = np.concatenate((cv_left_image, depth_any), axis=1)
         H_, W_ = results.shape[:2]
         results = cv2.resize(results, (W_ // 2, H_ // 2))
-        cv2.imshow("Depth", results)
-        cv2.waitKey(1)
+        oname = "junk.png"
+        cv2.imwrite(oname, results)
+        print(f"saved {oname}")
+        # cv2.imshow("Depth", results)
+        # cv2.waitKey(1)
 
 
 if __name__ == "__main__":
