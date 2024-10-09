@@ -1,8 +1,8 @@
 """
 Sample script to view depth images
 - ZED-SDK depth
-- Depth-Anything depth(native)
-This is developing code for depth-anything with zed sdk.
+- stereoSGBM
+This is developing code for SGBM with zed sdk.
 """
 
 import pyzed.sl as sl
