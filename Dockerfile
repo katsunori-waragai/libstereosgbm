@@ -22,4 +22,11 @@ COPY pyproject.toml Makefile ./
 RUN python3 -m pip install .[dev]
 RUN cd /root ; git clone https://github.com/katsunori-waragai/disparity-view.git
 RUN cd /root/disparity-view; python3 -m pip install .[dev]
+
+## if you have zed2i camera, enable following for zed sdk
+RUN apt install zstd
+ENV ZED_SDK_INSTALLER=ZED_SDK_Tegra_L4T35.3_v4.1.0.zstd.run
+RUN wget --quiet -O ${ZED_SDK_INSTALLER} https://download.stereolabs.com/zedsdk/4.1/l4t35.2/jetsons
+RUN chmod +x ${ZED_SDK_INSTALLER} && ./${ZED_SDK_INSTALLER} -- silent
+
 WORKDIR /root/libstereosgbm
