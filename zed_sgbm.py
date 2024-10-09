@@ -90,7 +90,7 @@ def as_matrix(chw_array):
 
 
 def main(opt):
-    calc_disparity = Trure
+    calc_disparity = True
     video_num = 0
 
     zed = sl.Camera()
@@ -120,41 +120,30 @@ def main(opt):
     runtime_parameters.confidence_threshold = opt.confidence_threshold
     print(f"### {runtime_parameters.confidence_threshold=}")
 
-    try:
-        while True:
-            if zed.grab(runtime_parameters) == sl.ERROR_CODE.SUCCESS:
-                zed.retrieve_image(left_image, sl.VIEW.LEFT, sl.MEM.CPU)
-                zed.retrieve_image(right_image, sl.VIEW.RIGHT, sl.MEM.CPU)
-                cv_left_image = left_image.get_data()
-                assert cv_left_image.shape[2] == 4  # ZED SDK dependent.
-                cv_left_image = cv_left_image[:, :, :3].copy()
-                cv_left_image = np.ascontiguousarray(cv_left_image)
+    while True:
+        if zed.grab(runtime_parameters) == sl.ERROR_CODE.SUCCESS:
+            zed.retrieve_image(left_image, sl.VIEW.LEFT, sl.MEM.CPU)
+            zed.retrieve_image(right_image, sl.VIEW.RIGHT, sl.MEM.CPU)
+            cv_left_image = left_image.get_data()
+            assert cv_left_image.shape[2] == 4  # ZED SDK dependent.
+            cv_left_image = cv_left_image[:, :, :3].copy()
+            cv_left_image = np.ascontiguousarray(cv_left_image)
 
-                cv_right_image = right_image.get_data()
-                cv_right_image = cv_right_image[:, :, :3].copy()
-                cv_right_image = np.ascontiguousarray(cv_right_image)
-            else:
-                continue
-            assert cv_left_image.shape[2] == 3
-            assert cv_left_image.dtype == np.uint8
-            frame = cv2.resize(cv_left_image, (960, 540)).copy()
-            assert frame.shape[0] == 540
-            assert frame.shape[1] == 960
-            disparity_raw = disparity_calculator.calc_by_bgr(cv_left_image, cv_right_image)
+            cv_right_image = right_image.get_data()
+            cv_right_image = cv_right_image[:, :, :3].copy()
+            cv_right_image = np.ascontiguousarray(cv_right_image)
+        else:
+            continue
+        assert cv_left_image.shape[2] == 3
+        assert cv_left_image.dtype == np.uint8
+        disparity_raw = disparity_calculator.calc_by_bgr(cv_left_image, cv_right_image)
 
-            depth_any = depth_as_colorimage(disparity_raw)
-            assert frame.dtype == depth_any.dtype
-            assert frame.shape[0] == depth_any.shape[0]
-            results = np.concatenate((frame, depth_any), axis=1)
-            cv2.imshow("Depth", results)
-            cv2.waitKey(1)
-
-    except Exception as e:
-        print(e.args)
-
-    finally:
-        if "zed" in locals():
-            zed.close()
+        depth_any = depth_as_colorimage(disparity_raw)
+        assert frame.dtype == depth_any.dtype
+        assert frame.shape[0] == depth_any.shape[0]
+        results = np.concatenate((frame, depth_any), axis=1)
+        cv2.imshow("Depth", results)
+        cv2.waitKey(1)
 
 
 if __name__ == "__main__":
