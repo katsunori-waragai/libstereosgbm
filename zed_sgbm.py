@@ -117,8 +117,6 @@ def depth_to_disparity(depth: np.ndarray, baseline=119.987, focal_length=532.41)
     return baseline * focal_length / depth
 
 def main(opt):
-    calc_disparity = True
-    video_num = 0
 
     zed = sl.Camera()
     init_params = sl.InitParameters()
