@@ -97,7 +97,7 @@ def main(opt):
     init_params = sl.InitParameters()
     parse_args(init_params)
     init_params.depth_mode = sl.DEPTH_MODE.ULTRA
-    init_params.camera_resolution = sl.RESOLUTION.HD2K
+    init_params.camera_resolution = sl.RESOLUTION.HD1080
 
     err = zed.open(init_params)
     if err != sl.ERROR_CODE.SUCCESS:
@@ -139,9 +139,9 @@ def main(opt):
         disparity_raw = disparity_calculator.calc_by_bgr(cv_left_image, cv_right_image)
 
         depth_any = depth_as_colorimage(disparity_raw)
-        assert frame.dtype == depth_any.dtype
-        assert frame.shape[0] == depth_any.shape[0]
-        results = np.concatenate((frame, depth_any), axis=1)
+        results = np.concatenate((cv_left_image, depth_any), axis=1)
+        H_, W_ = results.shape[:2]
+        results = cv2.resize(results, (W_ // 2, H_ // 2))
         cv2.imshow("Depth", results)
         cv2.waitKey(1)
 
