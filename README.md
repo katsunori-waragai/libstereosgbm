@@ -70,4 +70,12 @@ view_npy enable you to npy files as pseudo-colored images.
 zed_capture will make it easy access to zed camera.
 ```
 
+## comparison with ZED SDK based calculation
+```commandline
+python3 zed_sgbm.py
+```
+
+`init_params.depth_mode = sl.DEPTH_MODE.ULTRA` is better than this SGBM based calculation.
+
+Note: Absolute values are not checked enough.
 
