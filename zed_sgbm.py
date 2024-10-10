@@ -1,8 +1,8 @@
 """
 Sample script to view depth images
 - ZED-SDK depth
-- Depth-Anything depth(native)
-This is developing code for depth-anything with zed sdk.
+- stereoSGBM
+This is developing code for SGBM with zed sdk.
 """
 
 import pyzed.sl as sl
@@ -88,10 +88,35 @@ def as_matrix(chw_array):
     H_, W_ = chw_array.shape[-2:]
     return np.reshape(chw_array, (H_, W_))
 
+def get_fx_fy_cx_cy(left_cam_params):
+    """
+    Note:
+        left_cam_params = cam_info.camera_configuration.calibration_parameters.left_cam
+    """
+    return left_cam_params.fx, left_cam_params.fy, left_cam_params.cx, left_cam_params.cy
+
+
+def get_baseline(cam_info) -> float:
+    """
+    Note:
+        cam_info = zed.get_camera_information()
+    """
+    return cam_info.camera_configuration.calibration_parameters.get_camera_baseline()
+
+def depth_to_disparity(depth: np.ndarray, baseline=119.987, focal_length=532.41) -> np.ndarray:
+    """
+    depth(深度）をdisparity(視差)に変換する。
+
+
+
+        fx = 532.41
+        fy = 532.535
+        cx = 636.025  # [pixel]
+        cy = 362.4065  # [pixel]
+    """
+    return baseline * focal_length / depth
 
 def main(opt):
-    calc_disparity = True
-    video_num = 0
 
     zed = sl.Camera()
     init_params = sl.InitParameters()
@@ -114,11 +139,19 @@ def main(opt):
 
     left_image = sl.Mat()
     right_image = sl.Mat()
+    depth = sl.Mat()
 
     runtime_parameters = sl.RuntimeParameters()
     runtime_parameters.measure3D_reference_frame = sl.REFERENCE_FRAME.WORLD
     runtime_parameters.confidence_threshold = opt.confidence_threshold
     print(f"### {runtime_parameters.confidence_threshold=}")
+
+    cam_info = zed.get_camera_information()
+    baseline = get_baseline(cam_info)
+    left_cam_params = cam_info.camera_configuration.calibration_parameters.left_cam
+    fx, fy, cx, cy = get_fx_fy_cx_cy(left_cam_params)
+    print(f"{baseline=}")
+    print(f"{fx=} {fy=} {cx=} {cy=}")
 
     while True:
         if zed.grab(runtime_parameters) == sl.ERROR_CODE.SUCCESS:
@@ -134,15 +167,22 @@ def main(opt):
             cv_right_image = np.ascontiguousarray(cv_right_image)
         else:
             continue
+
+        zed.retrieve_measure(depth, sl.MEASURE.DEPTH)  # depthの数値データ
+        zed_depth = depth.get_data()  # np.ndarray 型
+
+        real_disparity = depth_to_disparity(zed_depth)
+
         assert cv_left_image.shape[2] == 3
         assert cv_left_image.dtype == np.uint8
         disparity_raw = disparity_calculator.calc_by_bgr(cv_left_image, cv_right_image)
         assert disparity_raw.shape[:2] == cv_left_image.shape[:2]
-        depth_any = depth_as_colorimage(disparity_raw)
-
-        results = np.concatenate((cv_left_image, depth_any), axis=1)
+        # depth_any = depth_as_colorimage(disparity_raw)
+        concat_disparity = np.concatenate((real_disparity, disparity_raw), axis=1)
+        concat_disparity_color = depth_as_colorimage(concat_disparity)
+        results = np.concatenate((cv_left_image, concat_disparity_color), axis=1)
         H_, W_ = results.shape[:2]
-        results = cv2.resize(results, (W_ // 2, H_ // 2))
+        results = cv2.resize(results, (W_ // 3, H_ // 3))
         oname = "junk.png"
         cv2.imwrite(oname, results)
         print(f"saved {oname}")
