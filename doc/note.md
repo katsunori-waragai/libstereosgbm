@@ -7,6 +7,9 @@
 以下の記事の中に各パラメータの効果について記載がある。
 https://learnopencv.com/depth-perception-using-stereo-camera-python-c/
 
+## SGBM の利点
+- 古くからあって、OpenCVにも含まれていることもあって、多様なデバイスに対する移植がありそうであること。
+
 ## SGBMに関する不満
 - cv2.StereoSGBM_create()にはたくさんのパラメータがありすぎて、適切な入力で使えていない可能性が高いのがうれしくない。
 - さらには、どんなときにも安心して使える状況にないのがうれしくない。
