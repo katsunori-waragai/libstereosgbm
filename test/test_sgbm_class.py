@@ -27,6 +27,7 @@ def test_sgbm_bgr():
     assert len(disparity.shape) == 2
     assert disparity.dtype in (np.float32, np.float64)
 
+
 def test_sgbm_gray():
     grayL = cv2.imread("../test/test-imgs/left/left_motorcycle.png", cv2.IMREAD_GRAYSCALE)
     grayR = cv2.imread("../test/test-imgs/right/right_motorcycle.png", cv2.IMREAD_GRAYSCALE)
