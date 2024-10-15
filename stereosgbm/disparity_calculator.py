@@ -36,27 +36,27 @@ class DisparityCalculator:
             speckleRange=32,
         )
 
-    def calc_by_gray(self, grayL: np.ndarray, grayR: np.ndarray) -> np.ndarray:
+    def predict_by_gray(self, grayL: np.ndarray, grayR: np.ndarray) -> np.ndarray:
         """
         return disparity by gray image pair
         """
         disparity = self.opencv_sgbm.compute(grayL, grayR).astype(np.float32) / 16.0
         return disparity
 
-    def calc_by_bgr(self, bgrL: np.ndarray, bgrR: np.ndarray) -> np.ndarray:
+    def predict_by_bgr(self, bgrL: np.ndarray, bgrR: np.ndarray) -> np.ndarray:
         """
         return disparity by BGR image pair
         """
         grayL = cv2.cvtColor(bgrL, cv2.COLOR_BGR2GRAY)
         grayR = cv2.cvtColor(bgrR, cv2.COLOR_BGR2GRAY)
-        return self.calc_by_gray(grayL, grayR)
+        return self.predict_by_gray(grayL, grayR)
 
-    def calc(self, imageL: np.ndarray, imageR: np.ndarray) -> np.ndarray:
+    def predict(self, imageL: np.ndarray, imageR: np.ndarray) -> np.ndarray:
         """
         return disparity by image pair
         """
         assert imageL.shape == imageR.shape
         if len(imageL.shape) == 2:
-            return self.calc_by_gray(imageL, imageR)
+            return self.predict_by_gray(imageL, imageR)
         else:
-            return self.calc_by_bgr(imageL, imageR)
+            return self.predict_by_bgr(imageL, imageR)
