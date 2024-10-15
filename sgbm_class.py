@@ -43,7 +43,7 @@ if __name__ == "__main__":
         bgrL = cv2.imread(left_name)
         bgrR = cv2.imread(right_name)
 
-        disparity = disparity_caluculator.calc_by_bgr(bgrL, bgrR)
+        disparity = disparity_caluculator.predict_by_bgr(bgrL, bgrR)
         left_name = Path(left_name)
         stem = left_name.stem.replace("left_", "")
         oname = outdir / f"disparity_{stem}.npy"

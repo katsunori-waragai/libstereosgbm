@@ -175,9 +175,8 @@ def main(opt):
 
         assert cv_left_image.shape[2] == 3
         assert cv_left_image.dtype == np.uint8
-        disparity_raw = disparity_calculator.calc_by_bgr(cv_left_image, cv_right_image)
+        disparity_raw = disparity_calculator.predict_by_bgr(cv_left_image, cv_right_image)
         assert disparity_raw.shape[:2] == cv_left_image.shape[:2]
-        # depth_any = depth_as_colorimage(disparity_raw)
         concat_disparity = np.concatenate((real_disparity, disparity_raw), axis=1)
         concat_disparity_color = depth_as_colorimage(concat_disparity)
         results = np.concatenate((cv_left_image, concat_disparity_color), axis=1)
@@ -191,7 +190,7 @@ def main(opt):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="depth-anything(native) with zed camera")
+    parser = argparse.ArgumentParser(description="stereoSGBM with zed camera")
     parser.add_argument(
         "--input_svo_file",
         type=str,
