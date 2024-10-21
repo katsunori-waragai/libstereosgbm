@@ -15,6 +15,7 @@ import stereosgbm
 
 MAX_ABS_DEPTH, MIN_ABS_DEPTH = 0.0, 2.0  # [m]
 
+
 def finitemax(depth: np.ndarray):
     return np.nanmax(depth[np.isfinite(depth)])
 
@@ -34,7 +35,6 @@ def depth_as_colorimage(depth_raw: np.ndarray, vmin=None, vmax=None) -> np.ndarr
     depth_raw = (depth_raw - vmin) / (vmax - vmin) * 255.0
     depth_raw = depth_raw.astype(np.uint8)
     return cv2.applyColorMap(depth_raw, cv2.COLORMAP_INFERNO)
-
 
 
 def parse_args(init):
@@ -88,6 +88,7 @@ def as_matrix(chw_array):
     H_, W_ = chw_array.shape[-2:]
     return np.reshape(chw_array, (H_, W_))
 
+
 def get_fx_fy_cx_cy(left_cam_params):
     """
     Note:
@@ -103,6 +104,7 @@ def get_baseline(cam_info) -> float:
     """
     return cam_info.camera_configuration.calibration_parameters.get_camera_baseline()
 
+
 def depth_to_disparity(depth: np.ndarray, baseline=119.987, focal_length=532.41) -> np.ndarray:
     """
     depth(深度）をdisparity(視差)に変換する。
@@ -115,6 +117,7 @@ def depth_to_disparity(depth: np.ndarray, baseline=119.987, focal_length=532.41)
         cy = 362.4065  # [pixel]
     """
     return baseline * focal_length / depth
+
 
 def main(opt):
 
@@ -133,9 +136,7 @@ def main(opt):
     min_disp = 0
     max_disp = 320
 
-    disparity_calculator = stereosgbm.DisparityCalculator(
-        window_size=window_size, min_disp=min_disp, max_disp=max_disp
-    )
+    disparity_calculator = stereosgbm.DisparityCalculator(window_size=window_size, min_disp=min_disp, max_disp=max_disp)
 
     left_image = sl.Mat()
     right_image = sl.Mat()
@@ -175,9 +176,8 @@ def main(opt):
 
         assert cv_left_image.shape[2] == 3
         assert cv_left_image.dtype == np.uint8
-        disparity_raw = disparity_calculator.calc_by_bgr(cv_left_image, cv_right_image)
+        disparity_raw = disparity_calculator.predict_by_bgr(cv_left_image, cv_right_image)
         assert disparity_raw.shape[:2] == cv_left_image.shape[:2]
-        # depth_any = depth_as_colorimage(disparity_raw)
         concat_disparity = np.concatenate((real_disparity, disparity_raw), axis=1)
         concat_disparity_color = depth_as_colorimage(concat_disparity)
         results = np.concatenate((cv_left_image, concat_disparity_color), axis=1)
@@ -191,7 +191,7 @@ def main(opt):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="depth-anything(native) with zed camera")
+    parser = argparse.ArgumentParser(description="stereoSGBM with zed camera")
     parser.add_argument(
         "--input_svo_file",
         type=str,

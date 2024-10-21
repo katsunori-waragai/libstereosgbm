@@ -15,17 +15,18 @@ def test_sgbm_bgr():
     disparity_caluculator = stereosgbm.DisparityCalculator(
         window_size=window_size, min_disp=min_disp, max_disp=max_disp
     )
-    disparity = disparity_caluculator.calc_by_bgr(bgrL, bgrR)
+    disparity = disparity_caluculator.predict_by_bgr(bgrL, bgrR)
 
     assert disparity.shape[:2] == bgrL.shape[:2]
     assert len(disparity.shape) == 2
     assert disparity.dtype in (np.float32, np.float64)
 
-    disparity = disparity_caluculator.calc(bgrL, bgrR)
+    disparity = disparity_caluculator.predict(bgrL, bgrR)
 
     assert disparity.shape[:2] == bgrL.shape[:2]
     assert len(disparity.shape) == 2
     assert disparity.dtype in (np.float32, np.float64)
+
 
 def test_sgbm_gray():
     grayL = cv2.imread("../test/test-imgs/left/left_motorcycle.png", cv2.IMREAD_GRAYSCALE)
@@ -38,13 +39,13 @@ def test_sgbm_gray():
     disparity_caluculator = stereosgbm.DisparityCalculator(
         window_size=window_size, min_disp=min_disp, max_disp=max_disp
     )
-    disparity = disparity_caluculator.calc_by_gray(grayL, grayR)
+    disparity = disparity_caluculator.predict_by_gray(grayL, grayR)
 
     assert disparity.shape[:2] == grayL.shape[:2]
     assert len(disparity.shape) == 2
     assert disparity.dtype in (np.float32, np.float64)
 
-    disparity = disparity_caluculator.calc(grayL, grayR)
+    disparity = disparity_caluculator.predict(grayL, grayR)
 
     assert disparity.shape[:2] == grayL.shape[:2]
     assert len(disparity.shape) == 2
