@@ -51,6 +51,10 @@ optional arguments:
 
 ![disparity_motorcycle.png](test/test-imgs/disparity/disparity_motorcycle.png)
 ![disparity_playtablep.png](test/test-imgs/disparity/disparity_playtablep.png)
+
+![colormap_edge_disparity_motorcycle.png](test/test-imgs/edge_disparity/colormap_edge_disparity_motorcycle.png)
+![colormap_edge_disparity_playtablep.png](test/test-imgs/edge_disparity/colormap_edge_disparity_playtablep.png)
+
 ## 
  python3 sgbm.py 
 loading images...
