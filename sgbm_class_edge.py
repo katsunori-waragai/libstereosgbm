@@ -3,7 +3,6 @@ import glob
 
 import cv2
 import matplotlib.pyplot as plt
-import skimage
 import numpy as np
 
 
@@ -26,8 +25,6 @@ if __name__ == "__main__":
     parser.add_argument("--max_disp", type=int, default=320, help="max disp of geometry encoding volume")
 
     args = parser.parse_args()
-
-    from matplotlib import pyplot as plt
 
     window_size = 3
     min_disp = 0
