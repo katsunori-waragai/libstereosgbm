@@ -17,7 +17,7 @@ class EdgeBasedDisparityCalculator:
     def __post_init__(self):
         self.sgbm_disparity_calculator = stereosgbm.DisparityCalculator(window_size=self.window_size, min_disp=self.min_disp, max_disp=self.max_disp)
 
-    def predict(self, grayL, grayR):
+    def predict(self, grayL: np.ndarray, grayR: np.ndarray) -> np.ndarray:
         left_edge = skimage.filters.sobel(grayL)
         right_edge = skimage.filters.sobel(grayR)
         max1 = np.max(left_edge.flatten())
