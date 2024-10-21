@@ -7,26 +7,6 @@ from dataclasses import dataclass, field
 
 import stereosgbm
 
-@dataclass
-class EdgeBasedDisparityCalculator:
-    window_size: int = 3
-    min_disp: int = 0
-    max_disp: int = 320
-    sgbm_disparity_calculator: stereosgbm.DisparityCalculator = field(default=None)
-
-    def __post_init__(self):
-        self.sgbm_disparity_calculator = stereosgbm.DisparityCalculator(window_size=self.window_size, min_disp=self.min_disp, max_disp=self.max_disp)
-
-    def predict(self, grayL: np.ndarray, grayR: np.ndarray) -> np.ndarray:
-        left_edge = skimage.filters.sobel(grayL)
-        right_edge = skimage.filters.sobel(grayR)
-        max1 = np.max(left_edge.flatten())
-        max2 = np.max(right_edge.flatten())
-        maxv = max((max1, max2))
-        left_edge_normalized = ((left_edge / maxv) * 255).astype(np.uint8)
-        right_edge_normalized = ((right_edge / maxv) * 255).astype(np.uint8)
-        return self.sgbm_disparity_calculator.predict(left_edge_normalized, right_edge_normalized)
-
 if __name__ == "__main__":
     window_size = 3
     min_disp = 0
@@ -35,7 +15,7 @@ if __name__ == "__main__":
     left_imgs = ["test/test-imgs/left/left_motorcycle.png"]
     right_imgs = ["test/test-imgs/right/right_motorcycle.png"]
 
-    edge_disparity_calculator = EdgeBasedDisparityCalculator(
+    edge_disparity_calculator = stereosgbm.EdgeBasedDisparityCalculator(
         window_size=window_size, min_disp=min_disp, max_disp=max_disp
     )
 
