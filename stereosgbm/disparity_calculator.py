@@ -6,6 +6,9 @@ from dataclasses import dataclass, field
 
 import numpy as np
 import cv2
+import skimage
+
+import stereosgbm
 
 
 @dataclass
@@ -60,3 +63,26 @@ class DisparityCalculator:
             return self.predict_by_gray(imageL, imageR)
         else:
             return self.predict_by_bgr(imageL, imageR)
+
+
+@dataclass
+class EdgeBasedDisparityCalculator:
+    window_size: int = 3
+    min_disp: int = 0
+    max_disp: int = 320
+    sgbm_disparity_calculator: DisparityCalculator = field(default=None)
+
+    def __post_init__(self):
+        self.sgbm_disparity_calculator = DisparityCalculator(
+            window_size=self.window_size, min_disp=self.min_disp, max_disp=self.max_disp
+        )
+
+    def predict(self, grayL: np.ndarray, grayR: np.ndarray) -> np.ndarray:
+        left_edge = skimage.filters.sobel(grayL)
+        right_edge = skimage.filters.sobel(grayR)
+        max1 = np.max(left_edge.flatten())
+        max2 = np.max(right_edge.flatten())
+        maxv = max((max1, max2))
+        left_edge_normalized = ((left_edge / maxv) * 255).astype(np.uint8)
+        right_edge_normalized = ((right_edge / maxv) * 255).astype(np.uint8)
+        return self.sgbm_disparity_calculator.predict(left_edge_normalized, right_edge_normalized)

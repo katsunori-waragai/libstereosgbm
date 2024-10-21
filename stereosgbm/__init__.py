@@ -1,1 +1,2 @@
 from .disparity_calculator import DisparityCalculator
+from .disparity_calculator import EdgeBasedDisparityCalculator
