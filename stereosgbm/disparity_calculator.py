@@ -73,7 +73,9 @@ class EdgeBasedDisparityCalculator:
     sgbm_disparity_calculator: DisparityCalculator = field(default=None)
 
     def __post_init__(self):
-        self.sgbm_disparity_calculator = DisparityCalculator(window_size=self.window_size, min_disp=self.min_disp, max_disp=self.max_disp)
+        self.sgbm_disparity_calculator = DisparityCalculator(
+            window_size=self.window_size, min_disp=self.min_disp, max_disp=self.max_disp
+        )
 
     def predict(self, grayL: np.ndarray, grayR: np.ndarray) -> np.ndarray:
         left_edge = skimage.filters.sobel(grayL)
