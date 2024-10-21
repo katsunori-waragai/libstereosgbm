@@ -49,8 +49,12 @@ optional arguments:
 
 ## StereoSGBM
 
-![disparity_motorcycle.png](test/test-imgs/disparity/disparity_motorcycle.png)
-![disparity_playtablep.png](test/test-imgs/disparity/disparity_playtablep.png)
+<img src="test/test-imgs/disparity/disparity_motorcycle.png" width="640">
+<img src="test/test-imgs/disparity/disparity_playtablep.png" width="640">
+
+<img src="test/test-imgs/edge_disparity/colormap_edge_disparity_motorcycle.png" width="640">
+<img src="test/test-imgs/edge_disparity/colormap_edge_disparity_playtablep.png" width="640">
+
 ## 
  python3 sgbm.py 
 loading images...
