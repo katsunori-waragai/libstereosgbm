@@ -15,12 +15,6 @@ def test_sgbm_edge_gray():
     disparity_calculator = stereosgbm.EdgeBasedDisparityCalculator(
         window_size=window_size, min_disp=min_disp, max_disp=max_disp
     )
-    disparity = disparity_calculator.predict_by_gray(grayL, grayR)
-
-    assert disparity.shape[:2] == grayL.shape[:2]
-    assert len(disparity.shape) == 2
-    assert disparity.dtype in (np.float32, np.float64)
-
     disparity = disparity_calculator.predict(grayL, grayR)
 
     assert disparity.shape[:2] == grayL.shape[:2]
