@@ -39,10 +39,18 @@ if __name__ == "__main__":
         window_size=window_size, min_disp=min_disp, max_disp=max_disp
     )
 
+    disparity_calculator = stereosgbm.DisparityCalculator(
+        window_size=window_size, min_disp=min_disp, max_disp=max_disp
+    )
+
     for left_name, right_name in zip(left_imgs, right_imgs):
         left_image = cv2.imread(left_name, cv2.IMREAD_GRAYSCALE)
         right_image = cv2.imread(right_name, cv2.IMREAD_GRAYSCALE)
         edge_disparity = edge_disparity_calculator.predict(left_image, right_image)
+        disparity = disparity_calculator.predict(left_image, right_image)
 
+        plt.subplot(1, 2, 1)
+        plt.imshow(disparity)
+        plt.subplot(1, 2, 2)
         plt.imshow(edge_disparity)
         plt.show()
