@@ -33,7 +33,7 @@ if __name__ == "__main__":
     outdir = Path(args.output_directory)
     outdir.mkdir(exist_ok=True)
 
-    disparity_caluculator = stereosgbm.DisparityCalculator(
+    disparity_calculator = stereosgbm.DisparityCalculator(
         window_size=window_size, min_disp=min_disp, max_disp=max_disp
     )
     left_imgs = sorted(glob.glob(args.left_imgs, recursive=True))
@@ -43,7 +43,7 @@ if __name__ == "__main__":
         bgrL = cv2.imread(left_name)
         bgrR = cv2.imread(right_name)
 
-        disparity = disparity_caluculator.predict_by_bgr(bgrL, bgrR)
+        disparity = disparity_calculator.predict_by_bgr(bgrL, bgrR)
         left_name = Path(left_name)
         stem = left_name.stem.replace("left_", "")
         oname = outdir / f"disparity_{stem}.npy"
