@@ -35,14 +35,14 @@ if __name__ == "__main__":
     left_imgs = ["test/test-imgs/left/left_motorcycle.png"]
     right_imgs = ["test/test-imgs/right/right_motorcycle.png"]
 
-    disparity_calculator = EdgeBasedDisparityCalculator(
+    edge_disparity_calculator = EdgeBasedDisparityCalculator(
         window_size=window_size, min_disp=min_disp, max_disp=max_disp
     )
 
     for left_name, right_name in zip(left_imgs, right_imgs):
         left_image = cv2.imread(left_name, cv2.IMREAD_GRAYSCALE)
         right_image = cv2.imread(right_name, cv2.IMREAD_GRAYSCALE)
-        disparity = disparity_calculator.predict(left_image, right_image)
+        edge_disparity = edge_disparity_calculator.predict(left_image, right_image)
 
-        plt.imshow(disparity)
+        plt.imshow(edge_disparity)
         plt.show()
