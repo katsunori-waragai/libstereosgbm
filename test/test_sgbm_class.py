@@ -12,16 +12,16 @@ def test_sgbm_bgr():
     min_disp = 0
     max_disp = 320
 
-    disparity_caluculator = stereosgbm.DisparityCalculator(
+    disparity_calculator = stereosgbm.DisparityCalculator(
         window_size=window_size, min_disp=min_disp, max_disp=max_disp
     )
-    disparity = disparity_caluculator.predict_by_bgr(bgrL, bgrR)
+    disparity = disparity_calculator.predict_by_bgr(bgrL, bgrR)
 
     assert disparity.shape[:2] == bgrL.shape[:2]
     assert len(disparity.shape) == 2
     assert disparity.dtype in (np.float32, np.float64)
 
-    disparity = disparity_caluculator.predict(bgrL, bgrR)
+    disparity = disparity_calculator.predict(bgrL, bgrR)
 
     assert disparity.shape[:2] == bgrL.shape[:2]
     assert len(disparity.shape) == 2
@@ -36,16 +36,16 @@ def test_sgbm_gray():
     min_disp = 0
     max_disp = 320
 
-    disparity_caluculator = stereosgbm.DisparityCalculator(
+    disparity_calculator = stereosgbm.DisparityCalculator(
         window_size=window_size, min_disp=min_disp, max_disp=max_disp
     )
-    disparity = disparity_caluculator.predict_by_gray(grayL, grayR)
+    disparity = disparity_calculator.predict_by_gray(grayL, grayR)
 
     assert disparity.shape[:2] == grayL.shape[:2]
     assert len(disparity.shape) == 2
     assert disparity.dtype in (np.float32, np.float64)
 
-    disparity = disparity_caluculator.predict(grayL, grayR)
+    disparity = disparity_calculator.predict(grayL, grayR)
 
     assert disparity.shape[:2] == grayL.shape[:2]
     assert len(disparity.shape) == 2
