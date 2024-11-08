@@ -20,8 +20,6 @@ COPY test/*.py test/*.sh /root/libstereosgbm/test/
 COPY pyproject.toml Makefile ./
 
 RUN python3 -m pip install .[dev]
-RUN cd /root ; git clone https://github.com/katsunori-waragai/disparity-view.git
-RUN cd /root/disparity-view; python3 -m pip install .[dev]
 
 ## if you have zed2i camera, enable following for zed sdk
 RUN apt install zstd
