@@ -19,34 +19,13 @@ def resize_by_rate(img, rate=1.0):
     return cv2.resize(img, new_size)
 
 
-def default_args():
-    args = argparse.Namespace(
-        corr_implementation="reg",
-        corr_levels=2,
-        corr_radius=4,
-        hidden_dims=[128, 128, 128],
-        # left_imgs="test-imgs/left/left*.png",
-        max_disp=192,
-        mixed_precision=False,
-        n_downsample=2,
-        n_gru_layers=3,
-        output_directory="./test-output/",
-        restore_ckpt="./stereoigev/models/sceneflow.pth",
-        # right_imgs="test-imgs/right/right*.png",
-        save_numpy=True,
-        shared_backbone=False,
-        slow_fast_gru=False,
-        valid_iters=32,
-    )
-    return args
-
-
 if __name__ == "__main__":
     import disparity_view
     from disparity_view.o3d_project import gen_tvec, as_extrinsics
 
     parser = argparse.ArgumentParser(description="disparity tool for ZED2i camera as usb camera")
     parser.add_argument("--calc_disparity", action="store_true", help="calc disparity")
+    parser.add_argument("--max_disp", type=int, default=320, help="max disp of geometry encoding volume")
     parser.add_argument("--normal", action="store_true", help="normal map")
     parser.add_argument("--reproject", action="store_true", help="reproject to 2D")
     parser.add_argument("json", help="json file for camera parameter")
@@ -63,8 +42,12 @@ if __name__ == "__main__":
     video_num = int(args.video_num)
 
     if calc_disparity:
-        igev_args = default_args()
-        disparity_calculator = stereosgbm.DisparityCalculator(args=igev_args)
+        window_size = 3
+        min_disp = 0
+        max_disp = args.max_disp
+        disparity_calculator = stereosgbm.DisparityCalculator(
+            window_size=window_size, min_disp=min_disp, max_disp=max_disp
+        )
 
     if normal:
         converter = disparity_view.DepthToNormalMap()
