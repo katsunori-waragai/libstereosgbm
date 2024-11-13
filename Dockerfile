@@ -17,7 +17,7 @@ COPY stereosgbm/*.py /root/libstereosgbm/stereosgbm/
 COPY *.py ./
 COPY test/test-imgs/ /root/libstereosgbm/test/test-imgs/
 COPY test/*.py test/*.sh /root/libstereosgbm/test/
-COPY pyproject.toml Makefile ./
+COPY pyproject.toml Makefile *.json ./
 
 RUN python3 -m pip install .[dev]
 
