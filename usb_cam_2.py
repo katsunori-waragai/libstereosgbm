@@ -8,7 +8,7 @@ import cv2
 import numpy as np
 import torch
 
-import stereoigev
+import stereosgbm
 
 
 def resize_by_rate(img, rate=1.0):
@@ -64,7 +64,7 @@ if __name__ == "__main__":
 
     if calc_disparity:
         igev_args = default_args()
-        disparity_calculator = stereoigev.DisparityCalculator(args=igev_args)
+        disparity_calculator = stereosgbm.DisparityCalculator(args=igev_args)
 
     if normal:
         converter = disparity_view.DepthToNormalMap()
