@@ -33,17 +33,21 @@ optional arguments:
 
 ```commandline
 python3 usb_cam.py -h
-usage: usb_cam.py [-h] [--calc_disparity] [--max_disp MAX_DISP] video_num
+usage: usb_cam.py [-h] [--calc_disparity] [--max_disp MAX_DISP] [--normal] [--reproject] [--axis AXIS] json video_num
 
 disparity tool for ZED2i camera as usb camera
 
 positional arguments:
+  json                 json file for camera parameter
   video_num            number in /dev/video
 
 optional arguments:
   -h, --help           show this help message and exit
   --calc_disparity     calc disparity
   --max_disp MAX_DISP  max disp of geometry encoding volume
+  --normal             normal map
+  --reproject          reproject to 2D
+  --axis AXIS          axis to shift(0; to right, 1: to upper, 2: to far)
 
 ```
 
