@@ -37,8 +37,8 @@ def depth_as_colorimage(depth_raw: np.ndarray, vmin=None, vmax=None) -> np.ndarr
     return cv2.applyColorMap(depth_raw, cv2.COLORMAP_INFERNO)
 
 
-def parse_args(init):
-    if len(opt.input_svo_file) > 0 and opt.input_svo_file.endswith(".svo"):
+def parse_args(opt, init):
+    if len(opt.input_svo_file) > 0 and opt.input_svo_file.endswith(".svo2"):
         init.set_from_svo_file(opt.input_svo_file)
         print("[Sample] Using SVO File input: {0}".format(opt.input_svo_file))
     elif len(opt.ip_address) > 0:
@@ -123,7 +123,7 @@ def main(opt):
 
     zed = sl.Camera()
     init_params = sl.InitParameters()
-    parse_args(init_params)
+    parse_args(opt, init_params)
     init_params.depth_mode = sl.DEPTH_MODE.ULTRA
     init_params.camera_resolution = sl.RESOLUTION.HD1080
 
